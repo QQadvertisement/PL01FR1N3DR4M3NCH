@@ -1,0 +1,6 @@
+/* Custom styles if needed */
+
+/* Example */
+button:focus {
+  outline: none;
+}
