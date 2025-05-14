@@ -26,7 +26,7 @@ function showScene(scene) {
 }
 
 // 🎮 Start screen → Register
-document.getElementById("start-btn").addEventListener("click", () => {
+document.getElementById("scene-start").addEventListener("click", () => {
   showScene("register");
 });
 
@@ -53,7 +53,7 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
 });
 
 // 👆 Tap to slurp
-document.getElementById("tap-btn").addEventListener("click", () => {
+document.getElementById("tap-area").addEventListener("click", () => {
   score++;
   document.getElementById("score").textContent = `Score: ${score}`;
 });
@@ -103,13 +103,3 @@ function renderLeaderboard(scores) {
 document.getElementById("play-again-btn").addEventListener("click", () => {
   showScene("start");
 });
-
-const { error } = await supabase.from('scores').insert([
-  { name: player.name, email: player.email, phone: player.phone, score }
-]);
-
-if (error) {
-  console.error("❌ Supabase insert failed:", error.message);
-} else {
-  console.log("✅ Score submitted successfully!");
-}
