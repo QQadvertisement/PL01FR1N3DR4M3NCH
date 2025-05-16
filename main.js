@@ -10,16 +10,19 @@ const supabase = createClient(
 let score = 0;
 let timer = 10;
 let countdown;
-let player = { name: "", email: "" };
+let countdownTimer;
+let gameEnded = false;
+
+let player = { name: "", phone: "", email: "" };
 
 // Scene switching
 const scenes = {
   start: document.getElementById("scene-start"),
   register: document.getElementById("scene-register"),
+  tutorial: document.getElementById("scene-tutorial"),
   game: document.getElementById("scene-game"),
   result: document.getElementById("scene-result"),
   survey: document.getElementById("scene-survey"),
-  tutorial: document.getElementById("scene-tutorial"),
 };
 
 function showScene(scene) {
@@ -32,7 +35,7 @@ document.getElementById("scene-start").addEventListener("click", () => {
   showScene("register");
 });
 
-// 📝 Form submission → Start game
+// 📝 Form submission → Tutorial (wait for button press)
 document.getElementById("register-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const form = new FormData(e.target);
@@ -41,20 +44,27 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
   player.email = form.get("email");
 
   showScene("tutorial");
-  // Wait for "I'm Ready" button press to start countdown (handled below)
+
+  // Reset tutorial state
+  document.getElementById("tutorial-countdown").textContent = "Game starting in 3...";
+  document.getElementById("tutorial-countdown").classList.add("hidden");
+  document.getElementById("ready-btn").classList.remove("hidden");
 });
 
-// 🟡 "I'm Ready!" button triggers countdown, then game starts
+// 🟡 "I'm Ready!" button → starts countdown → start game
 document.getElementById("ready-btn").addEventListener("click", () => {
   let countdownVal = 3;
   const tutorialText = document.getElementById("tutorial-countdown");
+
+  tutorialText.classList.remove("hidden");
+  document.getElementById("ready-btn").classList.add("hidden");
   tutorialText.textContent = `Game starting in ${countdownVal}...`;
 
-  const interval = setInterval(() => {
+  countdownTimer = setInterval(() => {
     countdownVal--;
     tutorialText.textContent = `Game starting in ${countdownVal}...`;
     if (countdownVal <= 0) {
-      clearInterval(interval);
+      clearInterval(countdownTimer);
       startGame();
     }
   }, 1000);
@@ -63,6 +73,8 @@ document.getElementById("ready-btn").addEventListener("click", () => {
 function startGame() {
   score = 0;
   timer = 10;
+  gameEnded = false;
+
   document.getElementById("score").textContent = "Score: 0";
   document.getElementById("progress-bar").style.width = "100%";
 
@@ -81,7 +93,34 @@ document.getElementById("tap-area").addEventListener("click", () => {
   document.getElementById("score").textContent = `Score: ${score}`;
 });
 
-// 📋 Survey submission → Upload to Supabase, then show result
+// 🛑 Game over → Submit to Supabase → Show survey
+async function endGame() {
+  if (gameEnded) return;
+  gameEnded = true;
+
+  clearInterval(countdown);
+  document.getElementById("final-score").textContent = `Your score is ${score}!`;
+  showScene("survey");
+
+  // 📤 Submit score to Supabase
+  await supabase.from('scores').insert([
+    {
+      name: player.name,
+      email: player.email,
+      phone: player.phone,
+      score
+    }
+  ]);
+
+  // 📥 Pre-fetch leaderboard
+  const { data: scores } = await supabase
+    .from('safe_leaderboard')
+    .select('*');
+
+  renderLeaderboard(scores);
+}
+
+// 📋 Survey submission → Upload to Supabase → Result
 document.getElementById("survey-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const form = new FormData(e.target);
@@ -91,7 +130,6 @@ document.getElementById("survey-form").addEventListener("submit", async (e) => {
   const sources = form.getAll("source");
   const other_source = form.get("source-other") || null;
 
-  // 📤 Submit survey data to Supabase
   const { error } = await supabase.from("survey_responses").insert([
     {
       phone: player.phone,
@@ -111,31 +149,7 @@ document.getElementById("survey-form").addEventListener("submit", async (e) => {
   showScene("result");
 });
 
-// 🛑 Game over → Submit & load leaderboard
-async function endGame() {
-  clearInterval(countdown);
-  document.getElementById("final-score").textContent = `Your score is ${score}!`;
-  showScene("survey");
-
-  // 📤 Submit score to Supabase
-  await supabase.from('scores').insert([
-    {
-      name: player.name,
-      email: player.email,
-      phone: player.phone, // ← Add this too
-      score
-    }
-  ]);
-
-  // 📥 Fetch leaderboard (from VIEW, no PII)
-  const { data: scores } = await supabase
-    .from('safe_leaderboard')
-    .select('*');
-
-  renderLeaderboard(scores);
-}
-
-// 🏆 Show leaderboard & highlight player if ranked
+// 🏆 Display leaderboard
 function renderLeaderboard(scores) {
   const list = document.getElementById("leaderboard");
   list.innerHTML = "";
@@ -143,16 +157,19 @@ function renderLeaderboard(scores) {
   scores.forEach(entry => {
     const li = document.createElement("li");
     li.textContent = `${entry.name} – ${entry.score}`;
-
     if (entry.name.trim().toLowerCase() === player.name.trim().toLowerCase()) {
       li.classList.add("font-bold", "text-yellow-600");
     }
-
     list.appendChild(li);
   });
 }
 
-// 🔁 Play again
+// 🔁 Play again → Reset game + tutorial state
 document.getElementById("play-again-btn").addEventListener("click", () => {
+  gameEnded = false;
+  clearInterval(countdownTimer);
+  document.getElementById("tutorial-countdown").classList.add("hidden");
+  document.getElementById("tutorial-countdown").textContent = "Game starting in 3...";
+  document.getElementById("ready-btn").classList.remove("hidden");
   showScene("start");
 });
