@@ -1,6 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
-// 🔐 Replace this with your actual anon key (safe if RLS is on)
 const supabase = createClient(
   'https://nbevrkrmfotibeuhrtzq.supabase.co',
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5iZXZya3JtZm90aWJldWhydHpxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcxNzY5ODcsImV4cCI6MjA2Mjc1Mjk4N30.tJck5rndFMVcwZFeRCy8zTAuXfcxDSxB6MszOZUpSwg'
@@ -30,12 +29,12 @@ function showScene(scene) {
   scenes[scene].classList.remove("hidden");
 }
 
-// 🎮 Start screen → Register
+// 🎬 Start screen → Register
 document.getElementById("scene-start").addEventListener("click", () => {
   showScene("register");
 });
 
-// 📝 Form submission → Tutorial (wait for button press)
+// 📝 Register → Tutorial
 document.getElementById("register-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const form = new FormData(e.target);
@@ -45,13 +44,12 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
 
   showScene("tutorial");
 
-  // Reset tutorial state
   document.getElementById("tutorial-countdown").textContent = "Game starting in 3...";
   document.getElementById("tutorial-countdown").classList.add("hidden");
   document.getElementById("ready-btn").classList.remove("hidden");
 });
 
-// 🟡 "I'm Ready!" button → starts countdown → start game
+// ✅ "I'm Ready!" triggers countdown
 document.getElementById("ready-btn").addEventListener("click", () => {
   let countdownVal = 3;
   const tutorialText = document.getElementById("tutorial-countdown");
@@ -77,6 +75,7 @@ function startGame() {
 
   document.getElementById("score").textContent = "Score: 0";
   document.getElementById("progress-bar").style.width = "100%";
+  document.getElementById("tap-area").style.pointerEvents = "auto"; // re-enable taps
 
   showScene("game");
 
@@ -93,34 +92,36 @@ document.getElementById("tap-area").addEventListener("click", () => {
   document.getElementById("score").textContent = `Score: ${score}`;
 });
 
-// 🛑 Game over → Submit to Supabase → Show survey
+// 🛑 Game over → Score submission → Show survey
 async function endGame() {
   if (gameEnded) return;
   gameEnded = true;
 
   clearInterval(countdown);
+  document.getElementById("tap-area").style.pointerEvents = "none"; // block input
+
   document.getElementById("final-score").textContent = `Your score is ${score}!`;
-  showScene("survey");
 
-  // 📤 Submit score to Supabase
-  await supabase.from('scores').insert([
-    {
-      name: player.name,
-      email: player.email,
-      phone: player.phone,
-      score
-    }
-  ]);
+  const { error: scoreError } = await supabase.from('scores').insert([{
+    name: player.name,
+    email: player.email,
+    phone: player.phone,
+    score
+  }]);
 
-  // 📥 Pre-fetch leaderboard
-  const { data: scores } = await supabase
-    .from('safe_leaderboard')
-    .select('*');
+  if (scoreError) {
+    console.error("❌ Failed to submit score:", scoreError.message);
+    alert("Something went wrong saving your score. Try again.");
+    return;
+  }
 
+  const { data: scores } = await supabase.from('safe_leaderboard').select('*');
   renderLeaderboard(scores);
+
+  showScene("survey");
 }
 
-// 📋 Survey submission → Upload to Supabase → Result
+// 📋 Survey → Upload to Supabase → Show result
 document.getElementById("survey-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const form = new FormData(e.target);
@@ -142,14 +143,13 @@ document.getElementById("survey-form").addEventListener("submit", async (e) => {
 
   if (error) {
     console.error("❌ Failed to submit survey:", error.message);
-  } else {
-    console.log("✅ Survey submitted!");
+    alert("Survey submission failed. Try again.");
   }
 
   showScene("result");
 });
 
-// 🏆 Display leaderboard
+// 🏆 Leaderboard display
 function renderLeaderboard(scores) {
   const list = document.getElementById("leaderboard");
   list.innerHTML = "";
@@ -164,7 +164,7 @@ function renderLeaderboard(scores) {
   });
 }
 
-// 🔁 Play again → Reset game + tutorial state
+// 🔁 Play again → reset tutorial + game state
 document.getElementById("play-again-btn").addEventListener("click", () => {
   gameEnded = false;
   clearInterval(countdownTimer);
