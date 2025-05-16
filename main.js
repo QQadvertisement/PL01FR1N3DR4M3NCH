@@ -18,6 +18,7 @@ const scenes = {
   register: document.getElementById("scene-register"),
   game: document.getElementById("scene-game"),
   result: document.getElementById("scene-result"),
+  survey: document.getElementById("scene-survey"),
 };
 
 function showScene(scene) {
@@ -58,11 +59,41 @@ document.getElementById("tap-area").addEventListener("click", () => {
   document.getElementById("score").textContent = `Score: ${score}`;
 });
 
+// 📋 Survey submission → Upload to Supabase, then show result
+document.getElementById("survey-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const form = new FormData(e.target);
+
+  const rating = parseInt(form.get("rating"), 10);
+  const recommend = parseInt(form.get("recommend"), 10);
+  const sources = form.getAll("source");
+  const other_source = form.get("source-other") || null;
+
+  // 📤 Submit survey data to Supabase
+  const { error } = await supabase.from("survey_responses").insert([
+    {
+      phone: player.phone,
+      rating,
+      recommend,
+      sources,
+      other_source
+    }
+  ]);
+
+  if (error) {
+    console.error("❌ Failed to submit survey:", error.message);
+  } else {
+    console.log("✅ Survey submitted!");
+  }
+
+  showScene("result");
+});
+
 // 🛑 Game over → Submit & load leaderboard
 async function endGame() {
   clearInterval(countdown);
   document.getElementById("final-score").textContent = `Your score is ${score}!`;
-  showScene("result");
+  showScene("survey");
 
   // 📤 Submit score to Supabase
   await supabase.from('scores').insert([

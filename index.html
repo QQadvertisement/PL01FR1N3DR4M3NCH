@@ -60,6 +60,57 @@
       </div>
     </div>
 
+    <!-- 📋 Survey Screen -->
+    <div id="scene-survey"
+      class="hidden w-full min-h-screen bg-white text-red-700 p-6 flex flex-col justify-center items-center space-y-6">
+      <h2 class="text-2xl font-bold text-center">Quick Survey</h2>
+      <form id="survey-form" class="space-y-6 w-full max-w-md">
+
+        <!-- Q1 -->
+        <div class="space-y-2">
+          <label class="block font-semibold">1. How would you rate your overall dining experience?</label>
+          <div class="flex justify-between">
+            <input type="radio" name="rating" value="1" required /> 1
+            <input type="radio" name="rating" value="2" /> 2
+            <input type="radio" name="rating" value="3" /> 3
+            <input type="radio" name="rating" value="4" /> 4
+            <input type="radio" name="rating" value="5" /> 5
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="space-y-2">
+          <label class="block font-semibold">2. How likely are you to recommend our restaurant?</label>
+          <div class="flex justify-between">
+            <input type="radio" name="recommend" value="1" required /> 1
+            <input type="radio" name="recommend" value="2" /> 2
+            <input type="radio" name="recommend" value="3" /> 3
+            <input type="radio" name="recommend" value="4" /> 4
+            <input type="radio" name="recommend" value="5" /> 5
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="space-y-2">
+          <label class="block font-semibold">3. How did you hear about us?</label>
+          <div class="flex flex-col space-y-1">
+            <label><input type="checkbox" name="source" value="social media" /> Social media</label>
+            <label><input type="checkbox" name="source" value="google search" /> Google search</label>
+            <label><input type="checkbox" name="source" value="online reviews" /> Online reviews</label>
+            <label><input type="checkbox" name="source" value="walked by" /> Walked by</label>
+            <label><input type="checkbox" name="source" value="word of mouth" /> Word of mouth</label>
+            <label><input type="text" name="source-other" placeholder="Other..."
+                class="mt-2 p-2 border rounded w-full" /></label>
+          </div>
+        </div>
+
+        <button type="submit"
+          class="w-full bg-yellow-400 text-red-700 py-2 rounded font-bold hover:bg-yellow-300 transition">
+          See Your Results
+        </button>
+      </form>
+    </div>
+
     <!-- 🏆 Result Scene -->
     <div id="scene-result" class="hidden space-y-4">
       <h2 class="text-2xl font-bold text-yellow-600">TIME'S UP!</h2>
