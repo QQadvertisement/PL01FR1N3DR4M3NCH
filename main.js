@@ -19,6 +19,7 @@ const scenes = {
   game: document.getElementById("scene-game"),
   result: document.getElementById("scene-result"),
   survey: document.getElementById("scene-survey"),
+  tutorial: document.getElementById("scene-tutorial"),
 };
 
 function showScene(scene) {
@@ -36,11 +37,32 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
   e.preventDefault();
   const form = new FormData(e.target);
   player.name = form.get("name");
-  player.phone = form.get("phone"); // ← Add this line
+  player.phone = form.get("phone");
   player.email = form.get("email");
+
+  showScene("tutorial");
+  // Wait for "I'm Ready" button press to start countdown (handled below)
+});
+
+// 🟡 "I'm Ready!" button triggers countdown, then game starts
+document.getElementById("ready-btn").addEventListener("click", () => {
+  let countdownVal = 3;
+  const tutorialText = document.getElementById("tutorial-countdown");
+  tutorialText.textContent = `Game starting in ${countdownVal}...`;
+
+  const interval = setInterval(() => {
+    countdownVal--;
+    tutorialText.textContent = `Game starting in ${countdownVal}...`;
+    if (countdownVal <= 0) {
+      clearInterval(interval);
+      startGame();
+    }
+  }, 1000);
+});
+
+function startGame() {
   score = 0;
   timer = 10;
-
   document.getElementById("score").textContent = "Score: 0";
   document.getElementById("progress-bar").style.width = "100%";
 
@@ -51,7 +73,7 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
     document.getElementById("progress-bar").style.width = `${timer * 10}%`;
     if (timer <= 0) endGame();
   }, 1000);
-});
+}
 
 // 👆 Tap to slurp
 document.getElementById("tap-area").addEventListener("click", () => {

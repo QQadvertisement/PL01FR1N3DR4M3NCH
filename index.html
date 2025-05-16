@@ -47,6 +47,18 @@
 
     </div>
 
+    <!-- 📘 Tutorial Scene -->
+    <div id="scene-tutorial"
+      class="hidden w-full min-h-screen bg-white text-red-700 p-6 flex flex-col justify-center items-center space-y-6">
+      <img src="assets/how-to-play.png" alt="How to Play" class="w-full max-w-xs mx-auto rounded shadow-md" />
+      <div>
+        <p id="tutorial-countdown" class="text-xl font-bold text-yellow-500 hidden">Game starting in 3...</p>
+      </div>
+      <button id="ready-btn" class="bg-yellow-400 text-red-700 px-4 py-2 rounded-full font-bold hover:bg-yellow-300 transition">
+        I'm Ready!
+      </button>
+    </div>
+
     <!-- 🎮 Game Scene -->
     <div id="scene-game" class="hidden space-y-6">
       <div id="tap-area" class="w-full h-screen flex flex-col items-center justify-center space-y-6">
@@ -63,49 +75,144 @@
     <!-- 📋 Survey Screen -->
     <div id="scene-survey"
       class="hidden w-full min-h-screen bg-white text-red-700 p-6 flex flex-col justify-center items-center space-y-6">
-      <h2 class="text-2xl font-bold text-center">Quick Survey</h2>
+      <h2 class="text-2xl font-bold text-center text-yellow-500">Quick Survey</h2>
+
       <form id="survey-form" class="space-y-6 w-full max-w-md">
 
         <!-- Q1 -->
-        <div class="space-y-2">
-          <label class="block font-semibold">1. How would you rate your overall dining experience?</label>
-          <div class="flex justify-between">
-            <input type="radio" name="rating" value="1" required /> 1
-            <input type="radio" name="rating" value="2" /> 2
-            <input type="radio" name="rating" value="3" /> 3
-            <input type="radio" name="rating" value="4" /> 4
-            <input type="radio" name="rating" value="5" /> 5
+        <div class="space-y-3">
+          <label class="block font-semibold text-lg text-red-800">
+            1. How would you rate your overall dining experience?
+          </label>
+          <div class="flex justify-between gap-2">
+            <label class="flex-1">
+              <input type="radio" name="rating" value="1" class="peer hidden" required />
+              <div
+                class="w-full py-2 text-center rounded-full border border-yellow-400 peer-checked:bg-yellow-400 peer-checked:text-red-800 transition cursor-pointer">
+                1
+              </div>
+            </label>
+            <label class="flex-1">
+              <input type="radio" name="rating" value="2" class="peer hidden" />
+              <div
+                class="w-full py-2 text-center rounded-full border border-yellow-400 peer-checked:bg-yellow-400 peer-checked:text-red-800 transition cursor-pointer">
+                2
+              </div>
+            </label>
+            <label class="flex-1">
+              <input type="radio" name="rating" value="3" class="peer hidden" />
+              <div
+                class="w-full py-2 text-center rounded-full border border-yellow-400 peer-checked:bg-yellow-400 peer-checked:text-red-800 transition cursor-pointer">
+                3
+              </div>
+            </label>
+            <label class="flex-1">
+              <input type="radio" name="rating" value="4" class="peer hidden" />
+              <div
+                class="w-full py-2 text-center rounded-full border border-yellow-400 peer-checked:bg-yellow-400 peer-checked:text-red-800 transition cursor-pointer">
+                4
+              </div>
+            </label>
+            <label class="flex-1">
+              <input type="radio" name="rating" value="5" class="peer hidden" />
+              <div
+                class="w-full py-2 text-center rounded-full border border-yellow-400 peer-checked:bg-yellow-400 peer-checked:text-red-800 transition cursor-pointer">
+                5
+              </div>
+            </label>
           </div>
         </div>
 
         <!-- Q2 -->
-        <div class="space-y-2">
-          <label class="block font-semibold">2. How likely are you to recommend our restaurant?</label>
-          <div class="flex justify-between">
-            <input type="radio" name="recommend" value="1" required /> 1
-            <input type="radio" name="recommend" value="2" /> 2
-            <input type="radio" name="recommend" value="3" /> 3
-            <input type="radio" name="recommend" value="4" /> 4
-            <input type="radio" name="recommend" value="5" /> 5
+        <div class="space-y-3">
+          <label class="block font-semibold text-lg text-red-800">
+            2. How likely are you to recommend us?
+          </label>
+          <div class="flex justify-between gap-2">
+            <label class="flex-1">
+              <input type="radio" name="recommend" value="1" class="peer hidden" required />
+              <div
+                class="w-full py-2 text-center rounded-full border border-yellow-400 peer-checked:bg-yellow-400 peer-checked:text-red-800 transition cursor-pointer">
+                1
+              </div>
+            </label>
+            <!-- Repeat for 2–5 -->
+            <label class="flex-1">
+              <input type="radio" name="recommend" value="2" class="peer hidden" />
+              <div
+                class="w-full py-2 text-center rounded-full border border-yellow-400 peer-checked:bg-yellow-400 peer-checked:text-red-800 transition cursor-pointer">
+                2</div>
+            </label>
+            <label class="flex-1">
+              <input type="radio" name="recommend" value="3" class="peer hidden" />
+              <div
+                class="w-full py-2 text-center rounded-full border border-yellow-400 peer-checked:bg-yellow-400 peer-checked:text-red-800 transition cursor-pointer">
+                3</div>
+            </label>
+            <label class="flex-1">
+              <input type="radio" name="recommend" value="4" class="peer hidden" />
+              <div
+                class="w-full py-2 text-center rounded-full border border-yellow-400 peer-checked:bg-yellow-400 peer-checked:text-red-800 transition cursor-pointer">
+                4</div>
+            </label>
+            <label class="flex-1">
+              <input type="radio" name="recommend" value="5" class="peer hidden" />
+              <div
+                class="w-full py-2 text-center rounded-full border border-yellow-400 peer-checked:bg-yellow-400 peer-checked:text-red-800 transition cursor-pointer">
+                5</div>
+            </label>
           </div>
         </div>
 
         <!-- Q3 -->
         <div class="space-y-2">
-          <label class="block font-semibold">3. How did you hear about us?</label>
-          <div class="flex flex-col space-y-1">
-            <label><input type="checkbox" name="source" value="social media" /> Social media</label>
-            <label><input type="checkbox" name="source" value="google search" /> Google search</label>
-            <label><input type="checkbox" name="source" value="online reviews" /> Online reviews</label>
-            <label><input type="checkbox" name="source" value="walked by" /> Walked by</label>
-            <label><input type="checkbox" name="source" value="word of mouth" /> Word of mouth</label>
-            <label><input type="text" name="source-other" placeholder="Other..."
-                class="mt-2 p-2 border rounded w-full" /></label>
+          <label class="block font-semibold text-lg text-red-800">
+            3. How did you hear about us?
+          </label>
+          <div class="flex flex-wrap gap-2">
+            <label>
+              <input type="checkbox" name="source" value="social media" class="peer hidden" />
+              <div
+                class="px-4 py-2 rounded-full border border-yellow-400 peer-checked:bg-yellow-400 peer-checked:text-red-800 cursor-pointer transition">
+                Social Media
+              </div>
+            </label>
+            <label>
+              <input type="checkbox" name="source" value="google search" class="peer hidden" />
+              <div
+                class="px-4 py-2 rounded-full border border-yellow-400 peer-checked:bg-yellow-400 peer-checked:text-red-800 cursor-pointer transition">
+                Google Search
+              </div>
+            </label>
+            <label>
+              <input type="checkbox" name="source" value="online reviews" class="peer hidden" />
+              <div
+                class="px-4 py-2 rounded-full border border-yellow-400 peer-checked:bg-yellow-400 peer-checked:text-red-800 cursor-pointer transition">
+                Online Reviews
+              </div>
+            </label>
+            <label>
+              <input type="checkbox" name="source" value="walked by" class="peer hidden" />
+              <div
+                class="px-4 py-2 rounded-full border border-yellow-400 peer-checked:bg-yellow-400 peer-checked:text-red-800 cursor-pointer transition">
+                Walked By
+              </div>
+            </label>
+            <label>
+              <input type="checkbox" name="source" value="word of mouth" class="peer hidden" />
+              <div
+                class="px-4 py-2 rounded-full border border-yellow-400 peer-checked:bg-yellow-400 peer-checked:text-red-800 cursor-pointer transition">
+                Word of Mouth
+              </div>
+            </label>
           </div>
+
+          <input type="text" name="source-other" placeholder="Other..."
+            class="mt-3 p-3 border border-yellow-300 rounded w-full text-sm" />
         </div>
 
         <button type="submit"
-          class="w-full bg-yellow-400 text-red-700 py-2 rounded font-bold hover:bg-yellow-300 transition">
+          class="w-full bg-yellow-400 text-red-700 py-3 rounded-full font-bold hover:bg-yellow-300 transition">
           See Your Results
         </button>
       </form>
@@ -129,6 +236,14 @@
   </div>
 
   <script type="module" src="main.js"></script>
+  <script>
+    // Add event listener to ready button to show countdown and hide button
+    document.getElementById('ready-btn').addEventListener('click', () => {
+      const countdown = document.getElementById('tutorial-countdown');
+      countdown.classList.remove('hidden');
+      document.getElementById('ready-btn').classList.add('hidden');
+    });
+  </script>
 </body>
 
 </html>
