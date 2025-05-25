@@ -6,13 +6,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>Ramen Slurp Game</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body
   class="bg-cover bg-center font-sans text-center min-h-screen flex flex-col justify-center items-center p-0 overflow-hidden"
-  style="background-image: url('assets/bg.png'); font-family: 'Luckiest Guy', sans-serif;">
+  style="background-image: url('assets/bg.png'); font-family: 'Bebas Neue', sans-serif;">
   <!-- Wrap all content in a max-width container for phones -->
   <div class="w-full space-y-6">
 
@@ -85,7 +85,7 @@
 
     <!-- 📋 Survey Screen -->
     <div id="scene-survey"
-      class="hidden w-full min-h-screen bg-white text-red-700 p-6 flex flex-col justify-center items-center space-y-6">
+      class="hidden w-full min-h-screen overflow-y-auto bg-white text-red-700 p-6 flex flex-col justify-center items-center space-y-6">
       <h2 class="text-2xl font-bold text-center text-yellow-500">Quick Survey</h2>
 
       <form id="survey-form" class="space-y-6 w-full max-w-md">
@@ -218,8 +218,8 @@
             </label>
           </div>
 
-          <input type="text" name="source-other" placeholder="Other..."
-            class="mt-3 p-3 border border-yellow-300 rounded w-full text-sm" />
+          <!-- <input type="text" name="source-other" placeholder="Other..."
+            class="mt-3 p-3 border border-yellow-300 rounded w-full text-sm" /> -->
         </div>
 
         <button type="submit"
@@ -231,8 +231,8 @@
 
     <!-- 🏆 Result Scene -->
     <div id="scene-result" class="hidden space-y-4">
-      <h2 class="text-2xl font-bold text-yellow-600">TIME'S UP!</h2>
-      <p id="final-score" class="text-lg font-medium"></p>
+      <h2 class="text-4xl font-bold text-yellow-300 drop-shadow-md">TIME'S UP!</h2>
+      <p id="final-score" class="text-lg text-white font-lg"></p>
 
       <div class="bg-white p-4 rounded shadow w-full mx-auto">
         <p class="font-semibold mb-2">Leaderboard</p>
