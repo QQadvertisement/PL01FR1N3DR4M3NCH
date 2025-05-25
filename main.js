@@ -22,6 +22,7 @@ const scenes = {
   game: document.getElementById("scene-game"),
   result: document.getElementById("scene-result"),
   survey: document.getElementById("scene-survey"),
+  feedback: document.getElementById("scene-feedback"),
 };
 
 function showScene(scene) {
@@ -171,8 +172,34 @@ function renderLeaderboard(scores) {
   });
 }
 
-// 🔁 Play again → reset tutorial + game state
+// 🔁 Play again → go to feedback screen
 document.getElementById("play-again-btn").addEventListener("click", () => {
+  showScene("feedback");
+});
+
+// 📝 Game experience feedback submission
+document.getElementById("feedback-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const form = new FormData(e.target);
+
+  const experience = parseInt(form.get("game-experience"), 10);
+  const suggestion = form.get("game-feedback");
+
+  const { error } = await supabase.from("game_feedback").insert([
+    {
+      phone: player.phone,
+      experience,
+      suggestion
+    }
+  ]);
+
+  if (error) {
+    console.error("❌ Failed to submit feedback:", error.message);
+    alert("Feedback submission failed. Try again.");
+    return;
+  }
+
+  // Reset state and go to start
   gameEnded = false;
   clearInterval(countdownTimer);
   document.getElementById("tutorial-countdown").classList.add("hidden");
