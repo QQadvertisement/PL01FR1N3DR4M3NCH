@@ -90,6 +90,13 @@ function startGame() {
 document.getElementById("tap-area").addEventListener("click", () => {
   score++;
   document.getElementById("score").textContent = `Score: ${score}`;
+
+  const sprite = document.getElementById("sprite");
+  if (sprite) {
+    sprite.classList.remove("bump");
+    void sprite.offsetWidth; // trigger reflow
+    sprite.classList.add("bump");
+  }
 });
 
 // 🛑 Game over → Score submission → Show survey
