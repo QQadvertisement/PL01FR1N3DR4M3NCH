@@ -6,28 +6,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>Ramen Slurp Game</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body
-  class="bg-red-800 font-sans text-center min-h-screen flex flex-col justify-center items-center p-4 overflow-hidden">
-
+  class="bg-cover bg-center font-sans text-center min-h-screen flex flex-col justify-center items-center p-0 overflow-hidden"
+  style="background-image: url('assets/bg.png'); font-family: 'Luckiest Guy', sans-serif;">
   <!-- Wrap all content in a max-width container for phones -->
-  <div class="w-full max-w-sm space-y-6">
+  <div class="w-full space-y-6">
 
     <!-- 🎬 Start Screen -->
     <div id="scene-start" class="w-full relative cursor-pointer">
-      <img src="assets/start.png" alt="Start Screen" class="w-full h-auto object-cover" />
+      <img src="assets/startbg.png" alt="Start Screen" class="w-full h-auto object-cover object-center" />
     </div>
 
     <!-- 📝 Register Scene -->
     <div id="scene-register"
-      class="hidden w-full min-h-screen bg-[#9B1C1C] flex flex-col justify-between items-center py-6 px-4 space-y-6 text-white">
+      class="hidden w-full min-h-screen flex flex-col justify-between items-center py-6 px-0 pb-20 space-y-6 text-white">
 
       <!-- Header text -->
-      <div class="text-center space-y-1">
-        <h2 class="text-2xl font-bold text-yellow-400">🔥 Tap your way to win!</h2>
-        <p class="text-lg">🏆 Weekly winner gets a $15 gift card.</p>
+      <div class="text-center space-y-2 px-4">
+        <h2 class="text-[1.9rem] leading-tight text-yellow-400 font-bold tracking-tight">
+          🔥 Tap your way to win!
+        </h2>
+        <p class="text-white text-[1.2rem] font-semibold leading-snug">
+          🏆 Weekly winner gets a <span class="italic">$15 gift card</span>.
+        </p>
       </div>
 
       <!-- Form block -->
@@ -36,6 +41,12 @@
         <input type="tel" name="phone" placeholder="Phone" required class="w-full px-4 py-3 rounded-full border-none" />
         <input type="email" name="email" placeholder="Email" required
           class="w-full px-4 py-3 rounded-full border-none" />
+        <div class="flex items-start space-x-2 text-xs text-red-700 leading-tight">
+          <input type="checkbox" id="consent" name="consent" required class="mt-0.5 accent-yellow-400" />
+          <label for="consent">
+            I consent to the collection and use of my information for the purpose of this promotion.
+          </label>
+        </div>
         <button type="submit"
           class="bg-yellow-400 text-red-700 font-bold py-2 px-4 rounded-full w-full hover:bg-yellow-300 transition">
           Play
@@ -43,14 +54,14 @@
       </form>
 
       <!-- Character image at bottom -->
-      <img src="assets/mascot-no-bg.png" alt="Ramen Character" class="w-120 object-contain mt-4" />
+      <img src="assets/mascot-no-bg.png" alt="Ramen Character" class="w-120 object-contain mt-2" />
 
     </div>
 
     <!-- 📘 Tutorial Scene -->
     <div id="scene-tutorial"
       class="hidden w-full min-h-screen bg-white text-red-700 p-6 flex flex-col justify-center items-center space-y-6">
-      <img src="assets/how-to-play.png" alt="How to Play" class="w-full max-w-xs mx-auto rounded shadow-md" />
+      <img src="assets/how-to-play.gif" alt="How to Play" class="w-full max-w-xs mx-auto rounded shadow-md" />
       <div>
         <p id="tutorial-countdown" class="text-xl font-bold text-yellow-500 hidden">Game starting in 3...</p>
       </div>
