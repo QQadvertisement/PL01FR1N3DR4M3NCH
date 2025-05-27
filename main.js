@@ -90,14 +90,26 @@ function startGame() {
 // 👆 Tap to slurp
 document.getElementById("tap-area").addEventListener("click", () => {
   score++;
-  document.getElementById("score").textContent = `Score: ${score}`;
 
   const sprite = document.getElementById("sprite");
   if (sprite) {
-    sprite.classList.remove("bump");
-    void sprite.offsetWidth; // trigger reflow
-    sprite.classList.add("bump");
+    let spriteNum = 1;
+    if (score <= 2) spriteNum = 1;
+    else if (score <= 3) spriteNum = 2;
+    else if (score <= 4) spriteNum = 3;
+    else if (score <= 5) spriteNum = 4;
+    else if (score <= 6) spriteNum = 5;
+    else spriteNum = 6;
+
+    sprite.src = `assets/${spriteNum}.png`;
+
+    // 👇 Bounce on update
+    sprite.classList.remove("bounce");
+    void sprite.offsetWidth;
+    sprite.classList.add("bounce");
   }
+
+  document.getElementById("score").textContent = `Score: ${score}`;
 });
 
 // 🛑 Game over → Score submission → Show survey
