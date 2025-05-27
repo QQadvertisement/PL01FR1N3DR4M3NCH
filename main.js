@@ -78,6 +78,12 @@ function startGame() {
   document.getElementById("progress-bar").style.width = "100%";
   document.getElementById("tap-area").style.pointerEvents = "auto"; // re-enable taps
 
+  const sprite = document.getElementById("sprite");
+  if (sprite) {
+    sprite.src = "assets/1.png";
+    sprite.classList.remove("bounce");
+  }
+
   showScene("game");
 
   countdown = setInterval(() => {
@@ -94,11 +100,11 @@ document.getElementById("tap-area").addEventListener("click", () => {
   const sprite = document.getElementById("sprite");
   if (sprite) {
     let spriteNum = 1;
-    if (score <= 2) spriteNum = 1;
-    else if (score <= 3) spriteNum = 2;
-    else if (score <= 4) spriteNum = 3;
-    else if (score <= 5) spriteNum = 4;
-    else if (score <= 6) spriteNum = 5;
+    if (score <= 20) spriteNum = 1;
+    else if (score <= 45) spriteNum = 2;
+    else if (score <= 60) spriteNum = 3;
+    else if (score <= 77) spriteNum = 4;
+    else if (score <= 99) spriteNum = 5;
     else spriteNum = 6;
 
     sprite.src = `assets/${spriteNum}.png`;
