@@ -93,14 +93,18 @@
 
     <!-- 🎮 Game Scene -->
     <div id="scene-game" class="hidden space-y-6">
-      <div id="tap-area" class="w-full h-screen flex flex-col items-center justify-center space-y-2">
-        <p id="score" class="text-[2.5rem] text-white font-bold">Score: 0</p>
-        <div class="w-full h-4 bg-white border rounded overflow-hidden mx-auto">
-          <div id="progress-bar" class="h-full bg-yellow-400 transition-all" style="width: 100%;"></div>
+      <div id="tap-area" class="relative w-full h-screen overflow-hidden">
+        <!-- Header UI: Score and Progress bar -->
+        <div class="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex flex-col items-center space-y-2 z-10">
+          <p id="score" class="text-[2.5rem] text-white font-bold">Score: 0</p>
+          <div class="w-full h-4 bg-white border rounded overflow-hidden max-w-md">
+            <div id="progress-bar" class="h-full bg-yellow-400 transition-all" style="width: 100%;"></div>
+          </div>
         </div>
-        <div class="relative w-full overflow-hidden flex justify-center items-end pb-24" style="height: calc(100vh - 160px);">
+        <!-- Sprite Layer -->
+        <div class="absolute inset-0 flex justify-center items-end pb-24">
           <img id="sprite" src="assets/1.png" alt="Slurping Sprite"
-            class="object-cover h-auto max-h-[120%] w-auto" />
+            class="object-cover h-auto max-h-[120%] w-auto pointer-events-none" />
         </div>
       </div>
     </div>
