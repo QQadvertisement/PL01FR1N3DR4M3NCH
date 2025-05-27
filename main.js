@@ -202,12 +202,16 @@ document.getElementById("feedback-form").addEventListener("submit", async (e) =>
 
   const experience = parseInt(form.get("game-experience"), 10);
   const suggestion = form.get("game-feedback");
+  const selectedLanguages = form.getAll("language");
+  const languageOther = form.get("language-other") || null;
 
   const { error } = await supabase.from("game_feedback").insert([
     {
       phone: player.phone,
       experience,
-      suggestion
+      suggestion,
+      languages: selectedLanguages,
+      language_other: languageOther
     }
   ]);
 
