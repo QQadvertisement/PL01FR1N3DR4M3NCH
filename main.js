@@ -14,6 +14,12 @@ let gameEnded = false;
 
 let player = { name: "", phone: "", email: "" };
 
+// Platform detection
+function isMobileDevice() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || 
+         (navigator.maxTouchPoints && navigator.maxTouchPoints > 2);
+}
+
 // Scene switching
 const scenes = {
   start: document.getElementById("scene-start"),
@@ -32,6 +38,10 @@ function showScene(scene) {
 
 // 🎬 Start screen → Register
 document.getElementById("scene-start").addEventListener("click", () => {
+  if (!isMobileDevice()) {
+    alert("This game is designed for mobile devices only. Please play on your smartphone for the best experience!");
+    return;
+  }
   showScene("register");
 });
 
@@ -94,8 +104,11 @@ function startGame() {
 }
 
 // 👆 Tap to slurp
-document.getElementById("tap-area").addEventListener("click", () => {
-  score++;
+document.getElementById("tap-area").addEventListener("touchstart", (e) => {
+  e.preventDefault(); // Prevent default touch behavior
+  
+  // Count each touch point as a score
+  score += e.touches.length;
 
   const sprite = document.getElementById("sprite");
   if (sprite) {
@@ -116,6 +129,15 @@ document.getElementById("tap-area").addEventListener("click", () => {
   }
 
   document.getElementById("score").textContent = `Score: ${score}`;
+});
+
+// Prevent default touch behaviors that might interfere with the game
+document.getElementById("tap-area").addEventListener("touchmove", (e) => {
+  e.preventDefault();
+});
+
+document.getElementById("tap-area").addEventListener("touchend", (e) => {
+  e.preventDefault();
 });
 
 // 🛑 Game over → Score submission → Show survey
