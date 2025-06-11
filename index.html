@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
+<head> 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Ramen Slurp Game</title>
@@ -92,16 +92,16 @@
     </div>
 
     <!-- 🎮 Game Scene -->
-    <div id="scene-game" class="hidden space-y-6">
-      <div id="tap-area" class="w-full h-screen flex flex-col items-center justify-center space-y-2">
+    <div id="scene-game" class="hidden fixed inset-0 w-full h-full">
+      <div id="tap-area" class="w-full h-full flex flex-col items-center justify-center space-y-2">
         <p class="text-[2.25rem] text-yellow-400 font-bold"> RAMEN SLURPING CHALLENGE</p>
         <p id="score" class="text-[2.5rem] text-white font-bold">Score: 0</p>
-        <div class="w-full h-4 bg-white border rounded overflow-hidden mx-auto">
+        <div class="w-full max-w-md h-4 bg-white border rounded overflow-hidden mx-auto">
           <div id="progress-bar" class="h-full bg-yellow-400 transition-all" style="width: 100%;"></div>
         </div>
-        <div class="relative w-full overflow-hidden flex justify-center items-end pb-24" style="height: calc(100vh - 160px);">
+        <div class="relative w-full h-[calc(100vh-200px)] flex justify-center items-end">
           <img id="sprite" src="assets/1.png" alt="Slurping Sprite"
-            class="object-cover h-auto max-h-[120%] w-auto" />
+            class="object-contain h-full w-auto" />
         </div>
       </div>
     </div>
@@ -264,7 +264,7 @@
     <!-- 🏆 Result Scene -->
     <div id="scene-result" class="hidden space-y-2">
       <h2 class="text-4xl font-bold text-yellow-400 drop-shadow-md" style="font-family: 'Bebas Neue', sans-serif;">
-        TIME’S UP</h2>
+        TIME'S UP</h2>
       <p id="final-score" class="text-[2rem] font-bold text-white"></p>
 
       <div class="bg-white rounded-xl shadow-md p-4 w-full max-w-xs mx-auto space-y-2">
