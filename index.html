@@ -33,7 +33,7 @@
   class="bg-cover bg-center font-sans text-center min-h-screen flex flex-col justify-center items-center p-0 overflow-hidden"
   style="background-image: url('assets/bg.png'); font-family: 'Bebas Neue', sans-serif;">
   <!-- Wrap all content in a max-width container for phones -->
-  <div class="w-full space-y-6">
+  <div class="w-full min-h-[100dvh] flex flex-col justify-between space-y-6">
 
     <!-- 🎬 Start Screen -->
     <div id="scene-start" class="w-full relative cursor-pointer">
@@ -42,7 +42,7 @@
 
     <!-- 📝 Register Scene -->
     <div id="scene-register"
-      class="hidden w-full min-h-screen flex flex-col justify-between items-center py-4 px-4 pt-20 pb-40 space-y-4 text-white">
+      class="hidden w-full min-h-[100dvh] flex flex-col justify-between items-center px-4 pt-10 pb-10 space-y-4 text-white">
 
       <!-- Header text -->
 
@@ -79,7 +79,7 @@
 
     <!-- 📘 Tutorial Scene -->
     <div id="scene-tutorial"
-      class="hidden w-full min-h-screen text-red-700 p-6 flex flex-col justify-center items-center space-y-6">
+      class="hidden w-full min-h-[100dvh] text-red-700 p-6 flex flex-col justify-center items-center space-y-6">
       <img src="assets/how-to-play.png" alt="How to Play" class="w-full max-w-xs mx-auto rounded shadow-md" />
       <div id="tutorial-countdown"
         class="hidden bg-black bg-opacity-70 text-yellow-300 text-[3.5rem] font-bold px-6 py-3 rounded-xl shadow-lg">
@@ -92,7 +92,7 @@
     </div>
 
     <!-- 🎮 Game Scene -->
-    <div id="scene-game" class="hidden fixed inset-0 w-full h-full">
+    <div id="scene-game" class="hidden fixed inset-0 w-full h-[100dvh]">
       <div id="tap-area" class="w-full h-full flex flex-col items-center justify-center space-y-2">
         <p class="text-[2.25rem] text-yellow-400 font-bold"> RAMEN SLURPING CHALLENGE</p>
         <p id="score" class="text-[2.5rem] text-white font-bold">Score: 0</p>
@@ -109,7 +109,7 @@
 
     <!-- 📋 Survey Screen -->
     <div id="scene-survey"
-      class="hidden w-full h-screen overflow-y-auto text-red-700 p-6 flex flex-col items-center space-y-6"
+      class="hidden w-full min-h-[100dvh] overflow-y-auto text-red-700 p-6 flex flex-col items-center space-y-6"
       style="font-family: 'Fredoka', sans-serif; -webkit-overflow-scrolling: touch;">
       <!-- <h2 class="text-3xl font-bold text-center text-yellow-400 tracking-wide"
         style="font-family: 'Fredoka', sans-serif;">
@@ -281,7 +281,7 @@
 
     <!-- 📝 Game Feedback Screen -->
     <div id="scene-feedback"
-      class="hidden w-full min-h-screen overflow-y-auto text-red-700 p-6 flex flex-col items-center space-y-6"
+      class="hidden w-full min-h-[100dvh] overflow-y-auto text-red-700 p-6 flex flex-col items-center space-y-6"
       style="font-family: 'Fredoka', sans-serif; -webkit-overflow-scrolling: touch;">
       <h2 class="text-3xl font-bold text-center text-yellow-400 tracking-wide">GAME FEEDBACK</h2>
 
