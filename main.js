@@ -12,7 +12,7 @@ let countdown;
 let countdownTimer;
 let gameEnded = false;
 
-let player = { name: "", phone: "", email: "" };
+let player = { name: "", phone: "", email: "", session_id: "" };
 
 // Platform detection
 function isMobileDevice() {
@@ -52,6 +52,15 @@ document.getElementById("register-form").addEventListener("submit", async (e) =>
   player.name = form.get("name");
   player.phone = form.get("phone");
   player.email = form.get("email");
+  player.session_id = crypto.randomUUID();
+
+  // Insert session into sessions table to satisfy FK constraints
+  await supabase.from('sessions').insert([
+    {
+      session_id: player.session_id,
+      phone: player.phone
+    }
+  ]);
 
   showScene("tutorial");
 
@@ -154,7 +163,8 @@ async function endGame() {
     name: player.name,
     email: player.email,
     phone: player.phone,
-    score
+    score,
+    session_id: player.session_id
   }]);
 
   if (scoreError) {
@@ -185,7 +195,8 @@ document.getElementById("survey-form").addEventListener("submit", async (e) => {
       rating,
       recommend,
       sources,
-      other_source
+      other_source,
+      session_id: player.session_id
     }
   ]);
 
@@ -233,7 +244,8 @@ document.getElementById("feedback-form").addEventListener("submit", async (e) =>
       experience,
       suggestion,
       languages: selectedLanguages,
-      language_other: languageOther
+      language_other: languageOther,
+      session_id: player.session_id
     }
   ]);
 
